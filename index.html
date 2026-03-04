@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Programación en Python</title>
+    <link rel="icon" type="image/png" href="E&B.png" />
+    <style>
+        :root {
+            --verde-principal: #008744;
+            --verde-oscuro: #006837;
+            --amarillo: #ffcc00;
+            --gris-fondo: #f5f5f5;
+            --gris-borde: #dddddd;
+            --azul-claro: #e9f5ef;
+        }
+
+        * { box-sizing: border-box; }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 120px;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--gris-fondo);
+        }
+
+        header {
+            background-color: var(--verde-principal);
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000; 
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-imagen {
+            height: 80px; 
+            width: auto;  
+            object-fit: contain; 
+            border-radius: 4px; 
+            background-color: #ffffff; 
+            padding: 2px; 
+        }
+
+        .titulo-curso {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .titulo-curso span:first-child {
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        .titulo-curso span:last-child {
+            font-size: 1rem;
+            color: #e0f2e9;
+        }
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - 60px);
+            align-items: flex-start;
+        }
+
+        .btn-menu-cuadrado {
+            background-color: var(--verde-principal);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-menu-cuadrado:hover {
+            background-color: var(--verde-oscuro);
+        }
+
+        aside {
+            width: 260px;
+            background-color: #ffffff;
+            padding: 0;
+            position: sticky;
+            top: 110px;
+            height: calc(100vh - 110px); 
+            overflow-y: auto;
+            flex-shrink: 0; 
+            border-right: 1px solid var(--gris-borde);
+        }
+
+        .menu-titulo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0; 
+            padding: 1.5rem;
+            color: #333;
+            position: sticky;
+            top: 0;
+            background-color: #ffffff; 
+            z-index: 10; 
+            border-bottom: 1px solid #f0f0f0; 
+        }
+
+        .menu-lista {
+            list-style: none;
+            padding: 0 0 1.5rem 0;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .menu-lista li {
+            border-radius: 4px;
+            margin-bottom: 0.2rem;
+        }
+
+        .menu-lista a {
+            display: block;
+            padding: 0.6rem 1.5rem; 
+            text-decoration: none;
+            color: #555;
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .menu-lista a:hover {
+            background-color: #e9f5ef;
+        }
+
+        .menu-lista .activo a {
+            background-color: transparent; 
+            color: var(--verde-principal); 
+            font-weight: 600;
+            border-left: 4px solid var(--verde-principal); 
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            border-left: 4px solid var(--amarillo);
+            border-bottom: 4px solid var(--amarillo);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: #333;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            color: #333;
+        }
+
+        .card-body p {
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .logo-seccion {
+            height: 150px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .teoria {
+            background-color: #fdfdfd;
+            border-left: 4px solid #4a90e2;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 4px 4px 0;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #444;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .teoria h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .grid-ejercicios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        .ejercicio {
+            background: #ffffff;
+            border: 1px solid #e0edf5;
+            border-top: 3px solid var(--verde-principal);
+            border-radius: 6px;
+            padding: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ejercicio:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+
+        .ejercicio strong {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--verde-oscuro);
+            font-size: 1.1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.4rem;
+        }
+
+        .ejercicio strong::before {
+            counter-increment: contador-ejercicio;
+            content: "Ejercicio " counter(contador-ejercicio) ": ";
+        }
+
+        code {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #d63384;
+        }
+
+        /* Estilos para el solucionario */
+        .bloqueo-soluciones {
+            background-color: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .bloqueo-soluciones input {
+            padding: 0.5rem;
+            font-size: 1.1rem;
+            width: 100px;
+            text-align: center;
+            margin-right: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .bloqueo-soluciones button {
+            background-color: var(--verde-principal);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .bloqueo-soluciones button:hover {
+            background-color: var(--verde-oscuro);
+        }
+
+        .mensaje-error {
+            color: #d32f2f;
+            margin-top: 1rem;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <button id="btn-menu" class="btn-menu-cuadrado">☰</button>
+            <img src="UCO.png" alt="Logo del curso" class="logo-imagen">
+            <div class="titulo-curso">
+                <span>Programación en Python</span>
+                <span>Conceptos básicos</span>
+                <span>Daniel Betancur Trujillo</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside>
+            <h3 class="menu-titulo">Contenido</h3>
+            <ul class="menu-lista">
+                <li><a href="#introduccion">1. Introducción</a></li>
+                <li><a href="#variables">2. Variables</a></li>
+                <li><a href="#condicionales">3. Condicionales</a></li>
+                <li><a href="#estructuras">4. Listas y diccionarios</a></li>
+                <li><a href="#ciclos">5. Ciclos</a></li>
+                <li><a href="#librerias">6. Librerías</a></li>
+                <li><a href="#solucionario">7. Solucionario</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <section id="introduccion" class="card">
+                <div class="card-header">
+                    <h2>1. Introducción</h2>
+                    <img src="py.png" alt="Logo de Python" class="logo-seccion">
+                </div>
+                <div class="card-body">
+                    <p>Este sitio contiene material de apoyo estructurado con el objetivo principal de afianzar los conocimientos adquiridos en clase y desarrollar la lógica algorítmica.</p>
+                    <p>A través de los siguientes apartados, encontrarás introducciones teóricas concisas y series de 10 ejercicios prácticos enfocados en cada tema fundamental: desde la declaración de variables y el control de flujo con condicionales y ciclos, hasta el uso de herramientas de nivel profesional para ingeniería como NumPy, Pandas y SciPy. Te invito a resolver estos retos paso a paso, ya que la práctica constante es la clave para dominar la programación.</p>
+                </div>
+            </section>
+
+            <section id="variables" class="card">
+                <div class="card-header">
+                    <h2>2. Variables</h2>
+                </div>
+                <div class="card-body">
+                    <p>En Python, una variable es un espacio reservado en la memoria que almacena un valor. A diferencia de otros lenguajes, Python tiene tipado dinámico, lo que significa que no necesitas declarar el tipo de dato explícitamente. Los tipos de datos fundamentales incluyen enteros (<code>int</code>), números con decimales (<code>float</code>), cadenas de texto (<code>str</code>) y valores lógicos (<code>bool</code>). El correcto manejo de estos datos es el primer paso para diseñar algoritmos estructurados.</p>
+
+                    <p>En Python, una variable es un espacio reservado en la memoria que almacena un valor (como <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>). Para hacer programas interactivos, utilizamos la función integrada <code>input()</code>. </p>
+                    <p><strong>Importante:</strong> Todo lo que el usuario ingresa mediante <code>input("Mensaje: ")</code> es capturado como una cadena de texto (<code>str</code>) por defecto. Si necesitas hacer cálculos matemáticos con ese dato, debes convertirlo usando funciones de transformación (Casting) como <code>int()</code> para enteros o <code>float()</code> para decimales. Por ejemplo: <code>edad = int(input("Ingresa tu edad: "))</code>.</p>
+                                                            
+                    <div class="grid-ejercicios">
+                        <div class="ejercicio">
+                            <strong>Declaración Básica</strong>
+                            Declara tres variables: nombre (<code>str</code>), edad (<code>int</code>) y estatura (<code>float</code>). Imprime un mensaje presentándote utilizando estas tres variables concatenadas.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Entrada del Usuario</strong>
+                            Utiliza la función <code>input()</code> para pedirle al usuario su comida favorita. Luego, imprime un mensaje que diga: "Así que tu comida favorita es [comida]".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Área del Triángulo</strong>
+                            Solicita por teclado la base y la altura de un triángulo (recuerda usar <code>float()</code>), guárdalas en variables, calcula el área <code>(base * altura) / 2</code> e imprime el resultado.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Intercambio de Variables</strong>
+                            Declara dos variables, <code>a = 10</code> y <code>b = 20</code>. Escribe un código que intercambie sus valores de modo que <code>a</code> valga 20 y <code>b</code> valga 10, sin escribir los números directamente.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Conversión de Temperaturas</strong>
+                            Solicita al usuario una temperatura en grados Celsius, conviértela a Fahrenheit usando la fórmula <code>(C * 9/5) + 32</code> y muestra el resultado.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Cálculo del IMC</strong>
+                            Pide al usuario su peso en kg y su estatura en metros. Calcula el Índice de Masa Corporal (IMC) usando la fórmula <code>peso / (estatura ** 2)</code>.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Longitud de Textos</strong>
+                            Solicita una frase al usuario mediante <code>input()</code>. Utiliza la función <code>len()</code> para contar cuántos caracteres tiene la frase introducida y muéstralo.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Operadores Modulares</strong>
+                            Pide al usuario que ingrese dos números enteros. Muestra por pantalla el cociente de la división exacta y el residuo (módulo) de la misma.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Extracción de Subcadenas</strong>
+                            Dada la variable <code>texto = "Programación y Estadística"</code>, utiliza "slicing" (rebanado) para extraer y mostrar únicamente la palabra "Estadística".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Promedio Simple</strong>
+                            Solicita las notas de 3 cortes evaluativos. Guárdalas en variables, súmalas y divídelas entre 3 para obtener y mostrar la nota definitiva del estudiante.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="condicionales" class="card">
+                <div class="card-header">
+                    <h2>3. Condicionales</h2>
+                </div>
+                <div class="card-body">
+                    <p>Las sentencias condicionales (<code>if</code>, <code>elif</code>, <code>else</code>) permiten que un algoritmo tome decisiones y altere su flujo de ejecución. Funcionan evaluando expresiones que dan como resultado un valor lógico o booleano (<code>True</code> o <code>False</code>). Si la evaluación es verdadera, se ejecuta un bloque de código específico. Son fundamentales para la toma de decisiones algorítmicas y para validar datos de entrada.</p>
+                        
+                        <p>Para construir estas expresiones de decisión, utilizamos dos herramientas matemáticas y lógicas fundamentales:</p>
+                        
+                        <ul>
+                            <li>Operadores de Comparación: Permiten contrastar dos valores. Incluyen: igualdad (<code>==</code>), diferencia (<code>!=</code>), mayor que (<code>&gt;</code>), menor que (<code>&lt;</code>), mayor o igual que (<code>&gt;=</code>) y menor o igual que (<code>&lt;=</code>). Recordar que un solo igual (<code>=</code>) se usa para asignar variables, mientras que el doble igual (<code>==</code>) se usa para comparar.</li>
+                            <li>Operadores Lógicos: Permiten combinar múltiples condiciones en una sola evaluación.
+                                <ul>
+                                    <li><code>and</code>: Retorna <code>True</code> solo si todas las condiciones conectadas son verdaderas.</li>
+                                    <li><code>or</code>: Retorna <code>True</code> si al menos una de las condiciones es verdadera.</li>
+                                    <li><code>not</code>: Invierte el valor de verdad de la condición (si era <code>True</code>, la convierte en <code>False</code> y viceversa).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    
+                    
+                    <div class="grid-ejercicios">
+                        <div class="ejercicio">
+                            <strong>Clasificación Etaria</strong>
+                            Crea un programa que pida la edad y clasifique: Niño (< 12 años), Adolescente (< 17 años), Adulto (< 59 años) o Adulto mayor (>= 59 años).
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Calculadora de Descuentos</strong>
+                            Solicita el valor de una compra. Si es > 100, aplica 20% de descuento. Si está entre 50 y 100, aplica 10%. Si es < 50, no hay descuento. Muestra el total a pagar.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Ejercicio 13: Verificación Par/Impar</strong>
+                            Solicita al usuario un número entero. Usa el operador módulo (<code>%</code>) para verificar si es divisible por 2. Imprime si el número es par o impar.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>El Mayor de Tres</strong>
+                            Escribe un programa que pida tres números diferentes al usuario y, mediante condicionales anidados o el uso de <code>and</code>, determine cuál es el mayor de los tres.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Año Bisiesto</strong>
+                            Pide un año y determina si es bisiesto. (Regla: Un año es bisiesto si es divisible por 4, excepto si es divisible por 100, a menos que también sea divisible por 400).
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Validación de Contraseña</strong>
+                            Define una variable con una contraseña secreta. Pide al usuario que ingrese la contraseña; si coincide, imprime "Acceso concedido", de lo contrario, "Acceso denegado".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Evaluación de Notas</strong>
+                            Solicita la nota final de un estudiante (0.0 a 5.0). Si la nota es >= 3.0, imprime "Aprobado"; si está entre 2.0 y 2.9, "Puede recuperar"; si es menor, "Reprobado".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Cuadrante de Coordenadas</strong>
+                            Pide al usuario los valores de <code>X</code> e <code>Y</code> en un plano cartesiano e indica en qué cuadrante se encuentra el punto (I, II, III o IV), o si está sobre el origen.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Calculadora Básica</strong>
+                            Pide dos números y un operador (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>). Realiza la operación matemática correspondiente usando condicionales. No olvides evitar la división por cero.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Tipo de Triángulo</strong>
+                            Solicita la longitud de los 3 lados de un triángulo. Determina si es Equilátero (3 lados iguales), Isósceles (2 iguales) o Escaleno (todos diferentes).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="estructuras" class="card">
+                <div class="card-header">
+                    <h2>4. Listas y diccionarios</h2>
+                </div>
+                <div class="card-body">
+                    <p>Las <strong>Listas</strong> <code>[]</code> son colecciones ordenadas y mutables que permiten almacenar múltiples elementos (incluso de diferentes tipos) en una sola variable. Los elementos se acceden mediante un índice numérico que comienza en 0. </p>
+                    <p>Los <strong>Diccionarios</strong> <code>{}</code> son colecciones no ordenadas que almacenan datos en pares de <code>clave:valor</code>. Son extremadamente útiles para estructurar información compleja, similar a un registro de base de datos o un archivo JSON. </p>
+                    
+
+                    <div class="grid-ejercicios">
+                        <div class="ejercicio">
+                            <strong>Creación de Lista</strong>
+                            Crea una lista vacía llamada <code>estudiantes_semillero</code>. Usa el método <code>append()</code> para agregar los nombres de 3 estudiantes. Imprime la lista.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Acceso por Índice</strong>
+                            Dada una lista de materias <code>['Cálculo', 'Física', 'Programación', 'Estadística']</code>, imprime únicamente el tercer elemento de la lista.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Eliminación de Elementos</strong>
+                            De la lista generada en el Ejercicio 21, elimina al segundo estudiante utilizando el método <code>remove()</code> o la instrucción <code>del</code>.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Ordenar una Lista</strong>
+                            Crea una lista con 5 números enteros desordenados. Utiliza el método <code>sort()</code> para ordenarlos de menor a mayor y muéstrala en pantalla.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Creación de Diccionario</strong>
+                            Crea un diccionario llamado <code>inventario_muebles</code> con al menos 3 productos. Las claves serán los nombres de los muebles (ej. 'Silla', 'Mesa') y los valores serán las cantidades disponibles.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Actualizar Diccionario</strong>
+                            Añade un nuevo producto al diccionario <code>inventario_muebles</code> (ej. 'Escritorio': 15). Luego, actualiza la cantidad de 'Silla' sumándole 5 unidades más.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Acceso a Valores</strong>
+                            Solicita al usuario que ingrese el nombre de un mueble. Si el mueble existe en el diccionario (usa <code>in</code>), imprime la cantidad disponible; si no, imprime "Mueble no encontrado".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Métodos de Diccionarios</strong>
+                            Imprime por separado todas las claves del diccionario usando <code>keys()</code>, y luego todos los valores usando <code>values()</code>.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Combinar Listas y Diccionarios</strong>
+                            Crea una lista que contenga dos diccionarios. Cada diccionario debe representar a un estudiante con las claves 'nombre' y 'nota'. Imprime el nombre del primer estudiante de la lista.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Vaciado de Estructuras</strong>
+                            Utiliza el método <code>clear()</code> para vaciar por completo tanto la lista del Ejercicio 21 como el diccionario del Ejercicio 25. Imprime ambas variables para verificar.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ciclos" class="card">
+                <div class="card-header">
+                    <h2>5. Ciclos</h2>
+                </div>
+                <div class="card-body">
+                    <p>Las estructuras repetitivas o bucles son herramientas clave para automatizar tareas. El ciclo <code>for</code> se utiliza para iterar sobre una secuencia conocida (como una lista de datos o un rango numérico determinado). El ciclo <code>while</code>, en cambio, ejecuta un bloque de código indefinidamente mientras una condición específica siga siendo verdadera. Comprender cuándo usar cada uno es esencial para optimizar procesos y evitar "ciclos infinitos".</p>
+                    <p><strong>La función <code>range()</code>:</strong> Es esencial cuando usamos <code>for</code> y queremos repetir una acción un número específico de veces. <code>range(inicio, fin, paso)</code> genera una secuencia numérica. Ojo: el número de "fin" no se incluye en la secuencia generada. Por ejemplo, <code>range(1, 5)</code> genera los números 1, 2, 3 y 4. </p>
+                    
+                    
+                    <div class="grid-ejercicios">
+                        <div class="ejercicio">
+                            <strong>Números Pares (For + Range)</strong>
+                            Usa un ciclo <code>for</code> y la función <code>range()</code> para mostrar en pantalla todos los números pares desde el 2 hasta el 20 (incluido). Ajusta el "paso" en la función range para lograrlo.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Acumulador (While)</strong>
+                            Pide números enteros al usuario repetidamente y ve sumándolos. El ciclo debe detenerse cuando el usuario ingrese el número 0. Muestra la suma total al final.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Tablas de Multiplicar</strong>
+                            Solicita un número al usuario. Utiliza un ciclo <code>for</code> y <code>range()</code> para imprimir su tabla de multiplicar desde el 1 hasta el 10.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Cuenta Regresiva</strong>
+                            Escribe un programa que utilice un ciclo para imprimir una cuenta regresiva desde un número ingresado por el usuario hasta llegar a 0, y al final imprima "¡Despegue!".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Cálculo del Factorial</strong>
+                            Pide al usuario un número entero positivo y usa un ciclo <code>for</code> para calcular su factorial (ej: el factorial de 5 es 5 * 4 * 3 * 2 * 1 = 120).
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Recorrer una Lista</strong>
+                            Crea una lista con 5 lenguajes de programación. Utiliza un ciclo <code>for</code> para iterar sobre la lista e imprimir: "Me gustaría dominar [Lenguaje]".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Validación de Entradas</strong>
+                            Crea un sistema de login usando <code>while</code>. El usuario tiene 3 intentos para ingresar la contraseña correcta ("admin123"). Si falla los 3, bloquea el acceso.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Recorrer Diccionarios</strong>
+                            Itera sobre el diccionario de <code>inventario_muebles</code> usando el método <code>items()</code> dentro de un ciclo <code>for</code> para imprimir: "Tenemos [cantidad] unidades de [Mueble]".
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Secuencia de Fibonacci</strong>
+                            Imprime los primeros N términos de la secuencia de Fibonacci (donde cada número es la suma de los dos anteriores: 0, 1, 1, 2, 3, 5...) usando un ciclo.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Menú Interactivo</strong>
+                            Crea un menú con opciones numéricas (1. Sumar, 2. Restar, 3. Salir). Usa un bucle <code>while</code> para mantener el menú activo hasta que el usuario seleccione la opción 3.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="librerias" class="card">
+                <div class="card-header">
+                    <h2>6. Librerías</h2>
+                </div>
+                <div class="card-body">
+                    <p>El verdadero potencial de Python para el análisis de datos radica en su ecosistema de librerías. <strong>NumPy</strong> es el estándar para cálculo numérico y operaciones con matrices. <strong>Pandas</strong> proporciona estructuras como los <em>DataFrames</em>, ideales para la manipulación y análisis de datos tabulares. <strong>SciPy</strong> expande a NumPy incorporando rutinas avanzadas para matemáticas, ciencia e ingeniería.</p>
+                    
+                    <div class="grid-ejercicios">
+                        <div class="ejercicio">
+                            <strong>Creación de Arrays (NumPy)</strong>
+                            Importa NumPy. Genera un arreglo unidimensional (array) que contenga 10 números aleatorios entre 0 y 100. Imprímelo en pantalla.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Operaciones Estadísticas (NumPy)</strong>
+                            Usando el array generado, utiliza las funciones integradas de NumPy para calcular y mostrar la media, la varianza y la desviación estándar.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Matrices Multidimensionales</strong>
+                            Crea un array de NumPy con los números del 1 al 12 y utiliza el método <code>reshape()</code> para transformarlo en una matriz de 3 filas y 4 columnas.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Operaciones Vectorizadas</strong>
+                            Crea dos arrays de NumPy de igual tamaño. Realiza la suma, resta y multiplicación elemento por elemento de estos dos arreglos e imprime los resultados.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Creación de DataFrames (Pandas)</strong>
+                            Importa Pandas. A partir de un diccionario que contenga claves 'Producto', 'Cantidad' y 'Precio', crea un DataFrame con al menos 4 registros y muéstralo.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Filtros de Datos (Pandas)</strong>
+                            Basándote en el DataFrame anterior, aplica un filtro para mostrar únicamente los productos cuya cantidad en inventario sea mayor a 10 unidades.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Columnas Calculadas</strong>
+                            Añade una nueva columna al DataFrame del Ejercicio 45 llamada 'Total', que sea el resultado de multiplicar la columna 'Cantidad' por la columna 'Precio'.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Estadísticas Descriptivas (Pandas)</strong>
+                            Aplica el método <code>describe()</code> a tu DataFrame para obtener un resumen estadístico automático de las columnas numéricas.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Modelado Estadístico (SciPy)</strong>
+                            Importa <code>scipy.stats</code>. Genera una lista de datos aleatorios y utiliza la función <code>mode()</code> para encontrar el valor que más se repite (la moda) en esa muestra.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Probabilidad Normal (SciPy)</strong>
+                            Usa <code>scipy.stats.norm</code> para calcular la probabilidad acumulada (CDF) de obtener un valor menor a 1 en una distribución normal estándar (media=0, desviación=1).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solucionario" class="card">
+                <div class="card-header">
+                    <h2>7. Solucionario</h2>
+                </div>
+                <div class="card-body">
+                    <div id="bloqueo-soluciones" class="bloqueo-soluciones">
+                        <h3>🔒 Acceso Restringido</h3>
+                        <p>Para desbloquear el solucionario de los ejercicios y poner a prueba tu lógica, resuelve la siguiente operación aritmética respetando la jerarquía de operaciones:</p>
+                        <p style="font-size: 1.3rem;"><strong>( 25 + 5 ) * 2 - 14 / 2 = ?</strong></p>
+                        <input type="number" id="respuesta-matematica" placeholder="Tu respuesta">
+                        <button id="btn-desbloquear">Desbloquear</button>
+                        <p id="error-msg" class="mensaje-error">Respuesta incorrecta. Verifica la jerarquía de las operaciones e intenta de nuevo.</p>
+                    </div>
+
+                    <div id="contenido-soluciones" style="display:none;">
+                        <h3>✅ ¡Acceso Concedido!</h3>
+                        <p>¡Excelente trabajo demostrando tu lógica matemática! Aquí encontrarás los fragmentos de código sugeridos para resolver los retos del taller.</p>
+                        
+                        <div class="teoria">
+                            <h3>Nota del docente</h3>
+                            <p>Recuerda que en programación muchas veces hay más de una ruta para llegar a la respuesta correcta. Estas soluciones son guías base, si tu código funciona y cumple el objetivo utilizando una lógica distinta, ¡también es válido!</p>
+                        </div>
+                        
+                        <div class="ejercicio">
+                            <strong>Solución Ejercicio 1: Declaración Básica</strong>
+                            <pre><code>nombre = "Daniel"
+edad = 25
+estatura = 1.75
+print("Hola, mi nombre es " + nombre + ", tengo " + str(edad) + " años y mido " + str(estatura) + "m.")</code></pre>
+                        </div>
+                        <br>
+                        <p><em>(El resto de soluciones a los ejercicios se enumerarían aquí siguiendo este formato...)</em></p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Script para activar el elemento del menú según el scroll
+        const secciones = document.querySelectorAll("main section");
+        const menuItems = document.querySelectorAll(".menu-lista li");
+
+        const opciones = {
+            root: null,
+            rootMargin: "-20% 0px -70% 0px", 
+            threshold: 0
+        };
+
+        const observador = new IntersectionObserver((entradas) => {
+            entradas.forEach(entrada => {
+                if (entrada.isIntersecting) {
+                    menuItems.forEach(item => item.classList.remove("activo"));
+                    const id = entrada.target.getAttribute("id");
+                    const enlaceCorrespondiente = document.querySelector(`.menu-lista a[href="#${id}"]`);
+                    if (enlaceCorrespondiente) {
+                        enlaceCorrespondiente.parentElement.classList.add("activo");
+                    }
+                }
+            });
+        }, opciones);
+
+        secciones.forEach(seccion => {
+            observador.observe(seccion);
+        });
+
+        // Script para desbloquear el solucionario
+        const btnDesbloquear = document.getElementById('btn-desbloquear');
+        const inputRespuesta = document.getElementById('respuesta-matematica');
+        
+        // (25 + 5) * 2 - 14 / 2
+        // 30 * 2 - 7
+        // 60 - 7 = 53
+        const respuestaCorrecta = 53;
+
+        function verificarRespuesta() {
+            const intento = parseInt(inputRespuesta.value);
+            if (intento === respuestaCorrecta) {
+                document.getElementById('bloqueo-soluciones').style.display = 'none';
+                document.getElementById('contenido-soluciones').style.display = 'block';
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+                inputRespuesta.value = '';
+                inputRespuesta.focus();
+            }
+        }
+
+        btnDesbloquear.addEventListener('click', verificarRespuesta);
+        
+        inputRespuesta.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verificarRespuesta();
+            }
+        });
+    </script>
+</body>
+</html>
