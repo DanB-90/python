@@ -175,6 +175,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #fafafa;
         }
 
         .card-header h2 {
@@ -221,8 +222,9 @@
         .grid-ejercicios {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 0.6rem;
+            gap: 1rem;
             margin-top: 0.4rem;
+            counter-reset: contador-ejercicio;
         }
 
         .ejercicio {
@@ -260,26 +262,38 @@
             background-color: #f0f0f0;
             padding: 0.2rem 0.4rem;
             border-radius: 4px;
-            font-family: monospace;
+            font-family: 'Consolas', monospace;
             color: #d63384;
+        }
+
+        pre code {
+            display: block;
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 1rem;
+            overflow-x: auto;
+            border-radius: 6px;
+            margin: 0;
+            line-height: 1.4;
         }
 
         /* Estilos para el solucionario */
         .bloqueo-soluciones {
             background-color: #fff8e1;
             border: 1px solid #ffe082;
-            padding: 2rem;
+            padding: 2.5rem;
             text-align: center;
             border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
         .bloqueo-soluciones input {
-            padding: 0.5rem;
-            font-size: 1.1rem;
-            width: 100px;
+            padding: 0.6rem;
+            font-size: 1.2rem;
+            width: 120px;
             text-align: center;
             margin-right: 0.5rem;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             border-radius: 4px;
         }
 
@@ -287,11 +301,12 @@
             background-color: var(--verde-principal);
             color: white;
             border: none;
-            padding: 0.6rem 1.2rem;
+            padding: 0.7rem 1.5rem;
             font-size: 1.1rem;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.2s;
+            font-weight: bold;
         }
 
         .bloqueo-soluciones button:hover {
@@ -303,6 +318,109 @@
             margin-top: 1rem;
             font-weight: bold;
             display: none;
+        }
+
+        .ecuacion {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: #333;
+            margin: 1.5rem 0;
+            background: #fff;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+        }
+
+        /* Acordeones para organizar soluciones */
+        details {
+            background: #ffffff;
+            border: 1px solid var(--gris-borde);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        summary {
+            background-color: var(--azul-claro);
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--verde-oscuro);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '▼';
+            font-size: 0.9rem;
+            color: var(--verde-oscuro);
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .details-content {
+            padding: 1.5rem;
+            border-top: 1px solid var(--gris-borde);
+        }
+
+        .solucion-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .solucion-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .solucion-titulo {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        /* NUEVOS ESTILOS PARA COPIAR CÓDIGO */
+        .codigo-contenedor {
+            position: relative;
+            margin-top: 0.5rem;
+        }
+
+        .btn-copiar {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copiar:hover {
+            opacity: 1;
+            background-color: #357abd;
+        }
+
+        .btn-copiar.copiado {
+            background-color: var(--verde-principal);
+            opacity: 1;
         }
     </style>
 </head>
@@ -355,7 +473,7 @@
 
                     <p>En Python, una variable es un espacio reservado en la memoria que almacena un valor (como <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>). Para hacer programas interactivos, utilizamos la función integrada <code>input()</code>. </p>
                     <p><strong>Importante:</strong> Todo lo que el usuario ingresa mediante <code>input("Mensaje: ")</code> es capturado como una cadena de texto (<code>str</code>) por defecto. Si necesitas hacer cálculos matemáticos con ese dato, debes convertirlo usando funciones de transformación (Casting) como <code>int()</code> para enteros o <code>float()</code> para decimales. Por ejemplo: <code>edad = int(input("Ingresa tu edad: "))</code>.</p>
-                                                            
+                                                                                                    
                     <div class="grid-ejercicios">
                         <div class="ejercicio">
                             <strong>Declaración Básica</strong>
@@ -408,19 +526,18 @@
                 <div class="card-body">
                     <p>Las sentencias condicionales (<code>if</code>, <code>elif</code>, <code>else</code>) permiten que un algoritmo tome decisiones y altere su flujo de ejecución. Funcionan evaluando expresiones que dan como resultado un valor lógico o booleano (<code>True</code> o <code>False</code>). Si la evaluación es verdadera, se ejecuta un bloque de código específico. Son fundamentales para la toma de decisiones algorítmicas y para validar datos de entrada.</p>
                         
-                        <p>Para construir estas expresiones de decisión, utilizamos dos herramientas matemáticas y lógicas fundamentales:</p>
+                    <p>Para construir estas expresiones de decisión, utilizamos dos herramientas matemáticas y lógicas fundamentales:</p>
                         
-                        <ul>
-                            <li>Operadores de Comparación: Permiten contrastar dos valores. Incluyen: igualdad (<code>==</code>), diferencia (<code>!=</code>), mayor que (<code>&gt;</code>), menor que (<code>&lt;</code>), mayor o igual que (<code>&gt;=</code>) y menor o igual que (<code>&lt;=</code>). Recordar que un solo igual (<code>=</code>) se usa para asignar variables, mientras que el doble igual (<code>==</code>) se usa para comparar.</li>
-                            <li>Operadores Lógicos: Permiten combinar múltiples condiciones en una sola evaluación.
-                                <ul>
-                                    <li><code>and</code>: Retorna <code>True</code> solo si todas las condiciones conectadas son verdaderas.</li>
-                                    <li><code>or</code>: Retorna <code>True</code> si al menos una de las condiciones es verdadera.</li>
-                                    <li><code>not</code>: Invierte el valor de verdad de la condición (si era <code>True</code>, la convierte en <code>False</code> y viceversa).</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    
+                    <ul>
+                        <li>Operadores de Comparación: Permiten contrastar dos valores. Incluyen: igualdad (<code>==</code>), diferencia (<code>!=</code>), mayor que (<code>&gt;</code>), menor que (<code>&lt;</code>), mayor o igual que (<code>&gt;=</code>) y menor o igual que (<code>&lt;=</code>). Recordar que un solo igual (<code>=</code>) se usa para asignar variables, mientras que el doble igual (<code>==</code>) se usa para comparar.</li>
+                        <li>Operadores Lógicos: Permiten combinar múltiples condiciones en una sola evaluación.
+                            <ul>
+                                <li><code>and</code>: Retorna <code>True</code> solo si todas las condiciones conectadas son verdaderas.</li>
+                                <li><code>or</code>: Retorna <code>True</code> si al menos una de las condiciones es verdadera.</li>
+                                <li><code>not</code>: Invierte el valor de verdad de la condición (si era <code>True</code>, la convierte en <code>False</code> y viceversa).</li>
+                            </ul>
+                        </li>
+                    </ul>
                     
                     <div class="grid-ejercicios">
                         <div class="ejercicio">
@@ -432,7 +549,7 @@
                             Solicita el valor de una compra. Si es > 100, aplica 20% de descuento. Si está entre 50 y 100, aplica 10%. Si es < 50, no hay descuento. Muestra el total a pagar.
                         </div>
                         <div class="ejercicio">
-                            <strong>Ejercicio 13: Verificación Par/Impar</strong>
+                            <strong>Verificación Par/Impar</strong>
                             Solicita al usuario un número entero. Usa el operador módulo (<code>%</code>) para verificar si es divisible por 2. Imprime si el número es par o impar.
                         </div>
                         <div class="ejercicio">
@@ -472,10 +589,9 @@
                     <h2>4. Listas y diccionarios</h2>
                 </div>
                 <div class="card-body">
-                    <p>Las <strong>Listas</strong> <code>[]</code> son colecciones ordenadas y mutables que permiten almacenar múltiples elementos (incluso de diferentes tipos) en una sola variable. Los elementos se acceden mediante un índice numérico que comienza en 0. </p>
-                    <p>Los <strong>Diccionarios</strong> <code>{}</code> son colecciones no ordenadas que almacenan datos en pares de <code>clave:valor</code>. Son extremadamente útiles para estructurar información compleja, similar a un registro de base de datos o un archivo JSON. </p>
+                    <p>Las Listas <code>[]</code> son colecciones ordenadas y mutables que permiten almacenar múltiples elementos (incluso de diferentes tipos) en una sola variable. Los elementos se acceden mediante un índice numérico que comienza en 0. </p>
+                    <p>Los Diccionarios <code>{}</code> son colecciones no ordenadas que almacenan datos en pares de <code>clave:valor</code>. Son extremadamente útiles para estructurar información compleja, similar a un registro de base de datos o un archivo JSON. </p>
                     
-
                     <div class="grid-ejercicios">
                         <div class="ejercicio">
                             <strong>Creación de Lista</strong>
@@ -527,8 +643,7 @@
                 </div>
                 <div class="card-body">
                     <p>Las estructuras repetitivas o bucles son herramientas clave para automatizar tareas. El ciclo <code>for</code> se utiliza para iterar sobre una secuencia conocida (como una lista de datos o un rango numérico determinado). El ciclo <code>while</code>, en cambio, ejecuta un bloque de código indefinidamente mientras una condición específica siga siendo verdadera. Comprender cuándo usar cada uno es esencial para optimizar procesos y evitar "ciclos infinitos".</p>
-                    <p><strong>La función <code>range()</code>:</strong> Es esencial cuando usamos <code>for</code> y queremos repetir una acción un número específico de veces. <code>range(inicio, fin, paso)</code> genera una secuencia numérica. Ojo: el número de "fin" no se incluye en la secuencia generada. Por ejemplo, <code>range(1, 5)</code> genera los números 1, 2, 3 y 4. </p>
-                    
+                    <p>La función <code>range()</code>: Es esencial cuando usamos <code>for</code> y queremos repetir una acción un número específico de veces. <code>range(inicio, fin, paso)</code> genera una secuencia numérica. Ojo: el número de "fin" no se incluye en la secuencia generada. Por ejemplo, <code>range(1, 5)</code> genera los números 1, 2, 3 y 4. </p>
                     
                     <div class="grid-ejercicios">
                         <div class="ejercicio">
@@ -580,7 +695,7 @@
                     <h2>6. Librerías</h2>
                 </div>
                 <div class="card-body">
-                    <p>El verdadero potencial de Python para el análisis de datos radica en su ecosistema de librerías. <strong>NumPy</strong> es el estándar para cálculo numérico y operaciones con matrices. <strong>Pandas</strong> proporciona estructuras como los <em>DataFrames</em>, ideales para la manipulación y análisis de datos tabulares. <strong>SciPy</strong> expande a NumPy incorporando rutinas avanzadas para matemáticas, ciencia e ingeniería.</p>
+                    <p>El verdadero potencial de Python para el análisis de datos radica en su ecosistema de librerías. NumPy es el estándar para cálculo numérico y operaciones con matrices. Pandas proporciona estructuras como los <em>DataFrames</em>, ideales para la manipulación y análisis de datos tabulares. SciPy expande a NumPy incorporando rutinas avanzadas para matemáticas, ciencia e ingeniería.</p>
                     
                     <div class="grid-ejercicios">
                         <div class="ejercicio">
@@ -634,31 +749,592 @@
                 <div class="card-body">
                     <div id="bloqueo-soluciones" class="bloqueo-soluciones">
                         <h3>🔒 Acceso Restringido</h3>
-                        <p>Para desbloquear el solucionario de los ejercicios y poner a prueba tu lógica, resuelve la siguiente operación aritmética respetando la jerarquía de operaciones:</p>
-                        <p style="font-size: 1.3rem;"><strong>( 25 + 5 ) * 2 - 14 / 2 = ?</strong></p>
-                        <input type="number" id="respuesta-matematica" placeholder="Tu respuesta">
+                        <p>Para desbloquear el solucionario y poner a prueba tu lógica, resuelve la siguiente operación aritmética respetando la jerarquía de operaciones:</p>
+                        
+                        <div id="ecuacion-display" class="ecuacion">Cargando reto...</div>
+                        <br>
+                        
+                        <input type="number" id="respuesta-matematica" placeholder="Respuesta">
                         <button id="btn-desbloquear">Desbloquear</button>
-                        <p id="error-msg" class="mensaje-error">Respuesta incorrecta. Verifica la jerarquía de las operaciones e intenta de nuevo.</p>
+                        <p id="error-msg" class="mensaje-error">Respuesta incorrecta. Recuerda resolver primero multiplicaciones/divisiones o paréntesis.</p>
                     </div>
 
                     <div id="contenido-soluciones" style="display:none;">
                         <h3>✅ ¡Acceso Concedido!</h3>
-                        <p>¡Excelente trabajo demostrando tu lógica matemática! Aquí encontrarás los fragmentos de código sugeridos para resolver los retos del taller.</p>
-                        
                         <div class="teoria">
                             <h3>Nota del docente</h3>
                             <p>Recuerda que en programación muchas veces hay más de una ruta para llegar a la respuesta correcta. Estas soluciones son guías base, si tu código funciona y cumple el objetivo utilizando una lógica distinta, ¡también es válido!</p>
                         </div>
-                        
-                        <div class="ejercicio">
-                            <strong>Solución Ejercicio 1: Declaración Básica</strong>
-                            <pre><code>nombre = "Daniel"
+
+                        <details>
+                            <summary>Soluciones: Variables (Ejercicios 1 - 10)</summary>
+                            <div class="details-content">
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 1</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>nombre = "Daniel"
 edad = 25
 estatura = 1.75
 print("Hola, mi nombre es " + nombre + ", tengo " + str(edad) + " años y mido " + str(estatura) + "m.")</code></pre>
-                        </div>
-                        <br>
-                        <p><em>(El resto de soluciones a los ejercicios se enumerarían aquí siguiendo este formato...)</em></p>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 2</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>comida = input("Ingresa tu comida favorita: ")
+print("Así que tu comida favorita es " + comida)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 3</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>base = float(input("Base: "))
+altura = float(input("Altura: "))
+area = (base * altura) / 2
+print("El área es:", area)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 4</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>a = 10
+b = 20
+a, b = b, a
+print("a =", a, "b =", b)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 5</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>celsius = float(input("Grados Celsius: "))
+fahr = (celsius * 9/5) + 32
+print("En Fahrenheit:", fahr)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 6</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>peso = float(input("Peso (kg): "))
+estatura = float(input("Estatura (m): "))
+imc = peso / (estatura ** 2)
+print("Tu IMC es:", imc)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 7</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>frase = input("Escribe una frase: ")
+print("Longitud:", len(frase))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 8</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>n1 = int(input("Número 1: "))
+n2 = int(input("Número 2: "))
+print("Cociente:", n1 // n2)
+print("Residuo:", n1 % n2)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 9</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>texto = "Programación y Estadística"
+print(texto[15:])</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 10</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>nota1 = float(input("Nota 1: "))
+nota2 = float(input("Nota 2: "))
+nota3 = float(input("Nota 3: "))
+promedio = (nota1 + nota2 + nota3) / 3
+print("Promedio final:", promedio)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Soluciones: Condicionales (Ejercicios 11 - 20)</summary>
+                            <div class="details-content">
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 11</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>edad = int(input("Tu edad: "))
+if edad < 12:
+    print("Niño")
+elif edad < 17:
+    print("Adolescente")
+elif edad < 59:
+    print("Adulto")
+else:
+    print("Adulto mayor")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 12</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>valor = float(input("Valor compra: "))
+if valor > 100:
+    total = valor - (valor * 0.20)
+elif valor >= 50 and valor <= 100:
+    total = valor - (valor * 0.10)
+else:
+    total = valor
+print("Total a pagar:", total)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 13</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>n = int(input("Número: "))
+if n % 2 == 0:
+    print("Es par")
+else:
+    print("Es impar")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 14</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>n1 = int(input("N1: "))
+n2 = int(input("N2: "))
+n3 = int(input("N3: "))
+if n1 > n2 and n1 > n3:
+    print("El mayor es N1")
+elif n2 > n1 and n2 > n3:
+    print("El mayor es N2")
+else:
+    print("El mayor es N3")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 15</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>anio = int(input("Año: "))
+if (anio % 4 == 0 and anio % 100 != 0) or (anio % 400 == 0):
+    print("Bisiesto")
+else:
+    print("No es bisiesto")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 16</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>secreta = "admin123"
+ingreso = input("Contraseña: ")
+if ingreso == secreta:
+    print("Acceso concedido")
+else:
+    print("Acceso denegado")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 17</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>nota = float(input("Nota final: "))
+if nota >= 3.0:
+    print("Aprobado")
+elif nota >= 2.0:
+    print("Puede recuperar")
+else:
+    print("Reprobado")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 18</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>x = float(input("X: "))
+y = float(input("Y: "))
+if x > 0 and y > 0:
+    print("Cuadrante I")
+elif x < 0 and y > 0:
+    print("Cuadrante II")
+elif x < 0 and y < 0:
+    print("Cuadrante III")
+elif x > 0 and y < 0:
+    print("Cuadrante IV")
+else:
+    print("En el origen")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 19</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>n1 = float(input("N1: "))
+n2 = float(input("N2: "))
+op = input("Operador (+, -, *, /): ")
+if op == '+': 
+    print(n1 + n2)
+elif op == '-': 
+    print(n1 - n2)
+elif op == '*': 
+    print(n1 * n2)
+elif op == '/':
+    if n2 != 0: 
+        print(n1 / n2)
+    else: 
+        print("Error: división por cero")
+else: 
+    print("Operador inválido")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 20</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>l1 = float(input("Lado 1: "))
+l2 = float(input("Lado 2: "))
+l3 = float(input("Lado 3: "))
+if l1 == l2 and l2 == l3:
+    print("Equilátero")
+elif l1 != l2 and l1 != l3 and l2 != l3:
+    print("Escaleno")
+else:
+    print("Isósceles")</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Soluciones: Listas y Diccionarios (Ejercicios 21 - 30)</summary>
+                            <div class="details-content">
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 21</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>estudiantes_semillero = []
+estudiantes_semillero.append("Ana")
+estudiantes_semillero.append("Luis")
+estudiantes_semillero.append("Carlos")
+print(estudiantes_semillero)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 22</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>materias = ['Cálculo', 'Física', 'Programación', 'Estadística']
+print(materias[2]) # Imprime Programación</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 23</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code># Usando la lista del ejercicio 21
+del estudiantes_semillero[1]
+# o también: estudiantes_semillero.remove("Luis")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 24</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>numeros = [15, 3, 8, 1, 10]
+numeros.sort()
+print(numeros)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 25</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>inventario_muebles = {
+    'Silla': 20,
+    'Mesa': 10,
+    'Estantería': 5
+}</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 26</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>inventario_muebles['Escritorio'] = 15
+inventario_muebles['Silla'] += 5</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 27</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>busqueda = input("Mueble a buscar: ")
+if busqueda in inventario_muebles:
+    print("Cantidad:", inventario_muebles[busqueda])
+else:
+    print("Mueble no encontrado")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 28</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>print(list(inventario_muebles.keys()))
+print(list(inventario_muebles.values()))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 29</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>lista_estudiantes = [
+    {'nombre': 'Juan', 'nota': 4.5},
+    {'nombre': 'Maria', 'nota': 3.8}
+]
+print(lista_estudiantes[0]['nombre'])</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 30</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>estudiantes_semillero.clear()
+inventario_muebles.clear()
+print(estudiantes_semillero)
+print(inventario_muebles)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Soluciones: Ciclos (Ejercicios 31 - 40)</summary>
+                            <div class="details-content">
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 31</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>for i in range(2, 21, 2):
+    print(i)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 32</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>suma = 0
+while True:
+    n = int(input("Número (0 para salir): "))
+    if n == 0:
+        break
+    suma += n
+print("Suma total:", suma)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 33</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>num = int(input("Tabla del: "))
+for i in range(1, 11):
+    print(f"{num} x {i} = {num * i}")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 34</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>inicio = int(input("Desde: "))
+for i in range(inicio, -1, -1):
+    print(i)
+print("¡Despegue!")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 35</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>n = int(input("Número: "))
+factorial = 1
+for i in range(1, n + 1):
+    factorial *= i
+print("Factorial:", factorial)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 36</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>lenguajes = ['Python', 'Java', 'C++', 'JavaScript', 'Go']
+for leng in lenguajes:
+    print("Me gustaría dominar", leng)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 37</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>intentos = 0
+while intentos < 3:
+    pwd = input("Clave: ")
+    if pwd == "admin123":
+        print("Acceso ok")
+        break
+    intentos += 1
+if intentos == 3:
+    print("Cuenta bloqueada")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 38</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code># Asumiendo el diccionario inventario_muebles
+for mueble, cant in inventario_muebles.items():
+    print(f"Tenemos {cant} unidades de {mueble}")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 39</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>n = int(input("Términos: "))
+a, b = 0, 1
+for _ in range(n):
+    print(a)
+    a, b = b, a + b</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 40</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>opcion = 0
+while opcion != 3:
+    print("1. Sumar  2. Restar  3. Salir")
+    opcion = int(input("Elige: "))
+    if opcion == 1: 
+        print("Sumando...")
+    elif opcion == 2: 
+        print("Restando...")</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Soluciones: Librerías (Ejercicios 41 - 50)</summary>
+                            <div class="details-content">
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 41</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>import numpy as np
+arr = np.random.randint(0, 100, 10)
+print(arr)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 42</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code># Asumiendo el arr anterior
+print("Media:", np.mean(arr))
+print("Varianza:", np.var(arr))
+print("Desviación:", np.std(arr))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 43</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>matriz = np.arange(1, 13).reshape(3, 4)
+print(matriz)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 44</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+print("Suma:", a + b)
+print("Resta:", a - b)
+print("Mult:", a * b)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 45</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>import pandas as pd
+datos = {
+    'Producto': ['A', 'B', 'C', 'D'],
+    'Cantidad': [5, 15, 2, 20],
+    'Precio': [100, 200, 50, 300]
+}
+df = pd.DataFrame(datos)
+print(df)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 46</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>filtro = df[df['Cantidad'] > 10]
+print(filtro)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 47</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>df['Total'] = df['Cantidad'] * df['Precio']
+print(df)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 48</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>print(df.describe())</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 49</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>from scipy import stats
+muestra = [1, 2, 2, 3, 4, 2, 5]
+moda = stats.mode(muestra)
+print("Moda:", moda)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 50</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>from scipy.stats import norm
+prob = norm.cdf(1) # P(X < 1) en normal estándar
+print("Probabilidad acumulada:", prob)</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                        
                     </div>
                 </div>
             </section>
@@ -667,7 +1343,7 @@ print("Hola, mi nombre es " + nombre + ", tengo " + str(edad) + " años y mido "
     </div>
 
     <script>
-        // Script para activar el elemento del menú según el scroll
+        // 1. LÓGICA DEL MENÚ LATERAL (Scrollspy)
         const secciones = document.querySelectorAll("main section");
         const menuItems = document.querySelectorAll(".menu-lista li");
 
@@ -694,14 +1370,32 @@ print("Hola, mi nombre es " + nombre + ", tengo " + str(edad) + " años y mido "
             observador.observe(seccion);
         });
 
-        // Script para desbloquear el solucionario
-        const btnDesbloquear = document.getElementById('btn-desbloquear');
+        // 2. LÓGICA DE LA CERRADURA MATEMÁTICA DINÁMICA
+        const ecuacionDisplay = document.getElementById('ecuacion-display');
         const inputRespuesta = document.getElementById('respuesta-matematica');
-        
-        // (25 + 5) * 2 - 14 / 2
-        // 30 * 2 - 7
-        // 60 - 7 = 53
-        const respuestaCorrecta = 53;
+        const btnDesbloquear = document.getElementById('btn-desbloquear');
+        const errorMsg = document.getElementById('error-msg');
+        let respuestaCorrecta = 0;
+
+        function generarReto() {
+            const plantillas = [
+                (a, b, c) => { return { texto: `( ${a} + ${b} ) * ${c}`, res: (a + b) * c } },
+                (a, b, c) => { return { texto: `${a} * ${b} - ${c}`, res: (a * b) - c } },
+                (a, b, c) => { return { texto: `${a} + ${b} * ${c}`, res: a + (b * c) } },
+                (a, b, c) => { return { texto: `( ${a} * ${b} ) + ${c}`, res: (a * b) + c } },
+                (a, b, c) => { return { texto: `${a} - ( ${b} - ${c} )`, res: a - (b - c) } }
+            ];
+
+            const a = Math.floor(Math.random() * 12) + 1; 
+            const b = Math.floor(Math.random() * 10) + 1; 
+            const c = Math.floor(Math.random() * 10) + 1; 
+
+            const plantillaElegida = plantillas[Math.floor(Math.random() * plantillas.length)];
+            const reto = plantillaElegida(a, b, c);
+
+            ecuacionDisplay.innerHTML = `<strong>${reto.texto} = ?</strong>`;
+            respuestaCorrecta = reto.res;
+        }
 
         function verificarRespuesta() {
             const intento = parseInt(inputRespuesta.value);
@@ -709,17 +1403,41 @@ print("Hola, mi nombre es " + nombre + ", tengo " + str(edad) + " años y mido "
                 document.getElementById('bloqueo-soluciones').style.display = 'none';
                 document.getElementById('contenido-soluciones').style.display = 'block';
             } else {
-                document.getElementById('error-msg').style.display = 'block';
+                errorMsg.style.display = 'block';
                 inputRespuesta.value = '';
                 inputRespuesta.focus();
+                generarReto(); 
             }
         }
 
-        btnDesbloquear.addEventListener('click', verificarRespuesta);
-        
-        inputRespuesta.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                verificarRespuesta();
+        if(btnDesbloquear) {
+            generarReto();
+
+            btnDesbloquear.addEventListener('click', verificarRespuesta);
+            inputRespuesta.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    verificarRespuesta();
+                }
+            });
+        }
+
+        // 3. LÓGICA DE LOS BOTONES PARA COPIAR CÓDIGO
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-copiar')) {
+                const preElement = e.target.nextElementSibling;
+                const codigo = preElement.innerText;
+                
+                navigator.clipboard.writeText(codigo).then(() => {
+                    e.target.innerText = '✅ Copiado';
+                    e.target.classList.add('copiado');
+                    
+                    setTimeout(() => {
+                        e.target.innerText = '📋 Copiar';
+                        e.target.classList.remove('copiado');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error al copiar el código: ', err);
+                });
             }
         });
     </script>
