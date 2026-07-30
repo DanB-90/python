@@ -156,6 +156,7 @@
         main {
             flex: 1;
             padding: 2rem;
+            counter-reset: contador-ejercicio; /* Movido aquí para que la numeración no se reinicie en cada sección */
         }
 
         .card {
@@ -224,7 +225,6 @@
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1rem;
             margin-top: 0.4rem;
-            counter-reset: contador-ejercicio;
         }
 
         .ejercicio {
@@ -447,8 +447,9 @@
                 <li><a href="#condicionales">3. Condicionales</a></li>
                 <li><a href="#estructuras">4. Listas y diccionarios</a></li>
                 <li><a href="#ciclos">5. Ciclos</a></li>
-                <li><a href="#librerias">6. Librerías</a></li>
-                <li><a href="#solucionario">7. Solucionario</a></li>
+                <li><a href="#funciones">6. Funciones</a></li>
+                <li><a href="#librerias">7. Librerías</a></li>
+                <li><a href="#solucionario">8. Solucionario</a></li>
             </ul>
         </aside>
 
@@ -688,9 +689,63 @@
                 </div>
             </section>
 
+            <!-- NUEVA SECCIÓN DE FUNCIONES -->
+            <section id="funciones" class="card">
+                <div class="card-header">
+                    <h2>6. Funciones</h2>
+                </div>
+                <div class="card-body">
+                    <p>Las funciones son bloques de código reutilizables diseñados para realizar una tarea específica. En lugar de escribir el mismo código varias veces, puedes definir una función una sola vez y "llamarla" (ejecutarla) cada vez que la necesites. Esto hace que tus programas sean más modulares, organizados y fáciles de mantener.</p>
+                    <p>En Python, las funciones se definen utilizando la palabra reservada <code>def</code>, seguida del nombre de la función y paréntesis. Pueden recibir datos de entrada llamados <strong>parámetros</strong> y pueden devolver un resultado utilizando la instrucción <code>return</code>. Comprender cómo pasar argumentos y retornar valores es el paso definitivo para dejar de escribir "scripts" básicos y comenzar a desarrollar software estructurado.</p>
+                    
+                    <div class="grid-ejercicios">
+                        <div class="ejercicio">
+                            <strong>Saludo Personalizado</strong>
+                            Crea una función llamada <code>saludar(nombre)</code> que reciba un nombre como parámetro e imprima el mensaje: "¡Hola, [nombre]! Bienvenido al curso de Python". Pruébala llamándola con tres nombres diferentes.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Suma de Dos Números</strong>
+                            Define una función llamada <code>sumar(a, b)</code> que reciba dos números, calcule su suma y utilice <code>return</code> para devolver el resultado. Llama a la función, guarda el resultado en una variable y muéstralo.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Área de un Círculo</strong>
+                            Crea una función que calcule y retorne el área de un círculo recibiendo su radio como parámetro. Usa la fórmula <code>3.1416 * (radio ** 2)</code>. Pide el radio al usuario y muestra el área calculada.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Verificador de Paridad</strong>
+                            Escribe una función llamada <code>es_par(numero)</code> que retorne <code>True</code> si el número ingresado es par, y <code>False</code> si es impar. Usa esta función dentro de un condicional <code>if</code> para imprimir un mensaje amigable.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Contador de Vocales</strong>
+                            Crea una función que reciba una cadena de texto (str) y retorne la cantidad de vocales (a, e, i, o, u) que contiene. Ignora si están en mayúsculas o minúsculas.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Máximo de una Lista</strong>
+                            Define una función que reciba una lista de números y retorne el valor máximo. Intenta resolverlo utilizando un ciclo <code>for</code> en lugar de usar la función integrada <code>max()</code> de Python.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Calculadora de Factorial</strong>
+                            Escribe una función que reciba un número entero positivo y calcule su factorial (la multiplicación de todos los números desde 1 hasta ese número). Por ejemplo, el factorial de 5 es 120 (5*4*3*2*1).
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Inversor de Cadenas</strong>
+                            Crea una función llamada <code>invertir_texto(texto)</code> que reciba un string y lo retorne al revés. (Pista: puedes usar slicing <code>[::-1]</code> o un ciclo).
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Conversor de Divisas</strong>
+                            Crea una función que reciba dos parámetros: una cantidad de dinero y la tasa de cambio actual. La función debe retornar el valor convertido. Añade un valor por defecto a la tasa de cambio en los parámetros de la función.
+                        </div>
+                        <div class="ejercicio">
+                            <strong>Validador de Palíndromos</strong>
+                            Escribe una función que determine si una palabra es un palíndromo (se lee igual de izquierda a derecha que de derecha a izquierda, como "reconocer"). Debe retornar un valor booleano.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section id="librerias" class="card">
                 <div class="card-header">
-                    <h2>6. Librerías</h2>
+                    <h2>7. Librerías</h2>
                 </div>
                 <div class="card-body">
                     <p>El verdadero potencial de Python para el análisis de datos radica en su ecosistema de librerías. NumPy es el estándar para cálculo numérico y operaciones con matrices. Pandas proporciona estructuras como los <em>DataFrames</em>, ideales para la manipulación y análisis de datos tabulares. SciPy expande a NumPy incorporando rutinas avanzadas para matemáticas, ciencia e ingeniería.</p>
@@ -742,7 +797,7 @@
 
             <section id="solucionario" class="card">
                 <div class="card-header">
-                    <h2>7. Solucionario</h2>
+                    <h2>8. Solucionario</h2>
                 </div>
                 <div class="card-body">
                     <div id="bloqueo-soluciones" class="bloqueo-soluciones">
@@ -1233,11 +1288,140 @@ while opcion != 3:
                             </div>
                         </details>
 
+                        <!-- NUEVAS SOLUCIONES DE FUNCIONES -->
                         <details>
-                            <summary>Soluciones: Librerías (Ejercicios 41 - 50)</summary>
+                            <summary>Soluciones: Funciones (Ejercicios 41 - 50)</summary>
                             <div class="details-content">
                                 <div class="solucion-item">
                                     <div class="solucion-titulo">Ejercicio 41</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def saludar(nombre):
+    print(f"¡Hola, {nombre}! Bienvenido al curso de Python")
+
+saludar("Ana")
+saludar("Luis")
+saludar("Carlos")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 42</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def sumar(a, b):
+    return a + b
+
+resultado = sumar(5, 7)
+print("La suma es:", resultado)</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 43</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def area_circulo(radio):
+    return 3.1416 * (radio ** 2)
+
+r = float(input("Radio del círculo: "))
+print("El área es:", area_circulo(r))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 44</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def es_par(numero):
+    return numero % 2 == 0
+
+n = int(input("Ingresa un número: "))
+if es_par(n):
+    print("El número es par")
+else:
+    print("El número es impar")</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 45</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def contar_vocales(texto):
+    vocales = "aeiouAEIOU"
+    contador = 0
+    for letra in texto:
+        if letra in vocales:
+            contador += 1
+    return contador
+
+print("Vocales:", contar_vocales("Programación"))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 46</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def maximo_lista(numeros):
+    maximo = numeros[0]
+    for n in numeros:
+        if n > maximo:
+            maximo = n
+    return maximo
+
+print("El mayor es:", maximo_lista([4, 9, 2, 15, 7]))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 47</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def factorial(n):
+    resultado = 1
+    for i in range(1, n + 1):
+        resultado *= i
+    return resultado
+
+print("Factorial de 5 es:", factorial(5))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 48</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def invertir_texto(texto):
+    return texto[::-1]
+
+print(invertir_texto("Python"))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 49</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def convertir(cantidad, tasa=4000):
+    return cantidad * tasa
+
+print("En pesos con tasa por defecto:", convertir(50))
+print("En pesos con tasa nueva:", convertir(50, 4200))</code></pre>
+                                    </div>
+                                </div>
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 50</div>
+                                    <div class="codigo-contenedor">
+                                        <button class="btn-copiar">📋 Copiar</button>
+<pre><code>def es_palindromo(palabra):
+    palabra = palabra.lower()
+    return palabra == palabra[::-1]
+
+print(es_palindromo("Reconocer"))</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details>
+                            <summary>Soluciones: Librerías (Ejercicios 51 - 60)</summary>
+                            <div class="details-content">
+                                <div class="solucion-item">
+                                    <div class="solucion-titulo">Ejercicio 51</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>import numpy as np
@@ -1246,7 +1430,7 @@ print(arr)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 42</div>
+                                    <div class="solucion-titulo">Ejercicio 52</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code># Asumiendo el arr anterior
@@ -1256,7 +1440,7 @@ print("Desviación:", np.std(arr))</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 43</div>
+                                    <div class="solucion-titulo">Ejercicio 53</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>matriz = np.arange(1, 13).reshape(3, 4)
@@ -1264,7 +1448,7 @@ print(matriz)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 44</div>
+                                    <div class="solucion-titulo">Ejercicio 54</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>a = np.array([1, 2, 3])
@@ -1275,7 +1459,7 @@ print("Mult:", a * b)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 45</div>
+                                    <div class="solucion-titulo">Ejercicio 55</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>import pandas as pd
@@ -1289,7 +1473,7 @@ print(df)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 46</div>
+                                    <div class="solucion-titulo">Ejercicio 56</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>filtro = df[df['Cantidad'] > 10]
@@ -1297,7 +1481,7 @@ print(filtro)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 47</div>
+                                    <div class="solucion-titulo">Ejercicio 57</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>df['Total'] = df['Cantidad'] * df['Precio']
@@ -1305,14 +1489,14 @@ print(df)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 48</div>
+                                    <div class="solucion-titulo">Ejercicio 58</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>print(df.describe())</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 49</div>
+                                    <div class="solucion-titulo">Ejercicio 59</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>from scipy import stats
@@ -1322,7 +1506,7 @@ print("Moda:", moda)</code></pre>
                                     </div>
                                 </div>
                                 <div class="solucion-item">
-                                    <div class="solucion-titulo">Ejercicio 50</div>
+                                    <div class="solucion-titulo">Ejercicio 60</div>
                                     <div class="codigo-contenedor">
                                         <button class="btn-copiar">📋 Copiar</button>
 <pre><code>from scipy.stats import norm
